@@ -1,0 +1,7 @@
+pandas
+streamlit
+matplotlib
+seaborn
+plotly
+pyarrow
+altair==4.2.2
