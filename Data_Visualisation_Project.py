@@ -15,7 +15,9 @@ st.title("Comparative Analysis of Lyft to Uber")
 @st.cache_data
 def load_data():
 
-    df = pd.read_csv("rideshare.csv")
+    df1 = pd.read_parquet("ride_share_1.parquet", engine="pyarrow")
+    df2 = pd.read_parquet("ride_share_2.parquet", engine="pyarrow")
+    df = pd.concat([df1, df2], ignore_index=True)
     
     drop_cols = ["timestamp","id","apparentTemperature","temperatureHigh","temperatureLow",
                  "apparentTemperatureHigh","apparentTemperatureLow","temperatureMin","temperatureMax",
@@ -44,21 +46,6 @@ def load_data():
     df = df[(df["price"] > 0) & (df["price"] < 200.00)]
     
     df = df.rename(columns={"longitude": "lon", "latitude": "lat"})
-
-    df.to_parquet("ride_share_dataset.parquet", engine="pyarrow", index=False, compression="snappy")
-
-    split_index = len(df) // 2
-    df1 = df.iloc[:split_index]
-    df2 = df.iloc[split_index:]
-
-    df1.to_parquet("ride_share_1.parquet", engine="pyarrow", index=False, compression="snappy")
-    df2.to_parquet("ride_share_2.parquet", engine="pyarrow", index=False, compression="snappy")
-
-    df1 = pd.read_parquet("ride_share_1.parquet", engine="pyarrow")
-    df2 = pd.read_parquet("ride_share_2.parquet", engine="pyarrow")
-
-    df = pd.concat([df1, df2], ignore_index=True)
-    df.to_parquet("ride_share_1_2.parquet", engine="pyarrow", index=False, compression="snappy")
 
     return df
     
