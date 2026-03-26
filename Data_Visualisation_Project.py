@@ -4,17 +4,13 @@ import streamlit as st
 import seaborn as sns
 import plotly.express as px
 
-
-st.title("Comparative Analysis of Lyft to Uber")
-
 st.set_page_config(
     page_title= "Analysis of Uber and Lyft Data",
     layout="centered",
     initial_sidebar_state="expanded"
 )
 
-import pandas as pd
-import streamlit as st
+st.title("Comparative Analysis of Lyft to Uber")
 
 @st.cache_data
 def load_data():
@@ -56,7 +52,7 @@ def load_data():
     df2 = df.iloc[split_index:]
 
     df1.to_parquet("ride_share_1.parquet", engine="pyarrow", index=False, compression="snappy")
-    df2.to_parquet("ride_share_1.parquet", engine="pyarrow", index=False, compression="snappy")
+    df2.to_parquet("ride_share_2.parquet", engine="pyarrow", index=False, compression="snappy")
 
     df1 = pd.read_parquet("ride_share_1.parquet", engine="pyarrow")
     df2 = pd.read_parquet("ride_share_2.parquet", engine="pyarrow")
