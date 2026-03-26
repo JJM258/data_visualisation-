@@ -38,7 +38,7 @@ df = load_data()
 
 st.sidebar.title("Navigation")
 
-options = st.sidebar.radio("Pages", options=["Information Page","Clean Data","Uber and Lyft Pickup Locations","Uber and Lyft Price Comparison","Price to Ride Comparison", 
+options = st.sidebar.radio("Pages", options=["Information Page","Uber and Lyft Pickup Locations","Uber and Lyft Price Comparison","Price to Ride Comparison", 
                                              "Interactive Scatter Plot","Heatmap for Correlation between Metrics", "Rides Per Time Period"])
 
 def Main():
@@ -56,20 +56,6 @@ def Main():
 
 # Define a function def Main():, its needed to add the information page 
 # Used the streamlit function, st.write(), to add strings to the page
-
-def Statistics(): 
-    st.header("Cleaned Data of the Original Dataset")
-    st.subheader("Full Dataset")
-    st.write(df)
-    st.subheader("Selected Column")
-    column = st.selectbox("Select Column", options = df.columns)
-    st.write(df[[column]])
-
-# Define a function def Statistics():, its needed to add the dataset to its page
-# Used the streamlit function, st.write(df), to show the entrire clean data.
-# Then I wanted to allow the user to select one specific column to view.
-# So, I defined "column", as a drop down selection box to select columns from the data set (options = df.columns)
-# To show this I used st.write(df[[column]] to show that column
 
 def Locations():
     st.header("Latitude and Longtitude of Uber and Lyft Pickups")
@@ -200,9 +186,7 @@ def Time():
  # streamlit function st.plotly_chart(plot) to plot the Line Graph.
 
 
-if options == "Clean Data":
-    Statistics() 
-elif options == "Uber and Lyft Pickup Locations":
+if options == "Uber and Lyft Pickup Locations":
     Locations()
 elif options == "Uber and Lyft Price Comparison":
     Price()
