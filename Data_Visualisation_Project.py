@@ -14,39 +14,24 @@ st.title("Comparative Analysis of Lyft to Uber")
 
 @st.cache_data
 def load_data():
-
     df1 = pd.read_parquet("ride_share_1.parquet", engine="pyarrow")
     df2 = pd.read_parquet("ride_share_2.parquet", engine="pyarrow")
     df = pd.concat([df1, df2], ignore_index=True)
+
+    df["price"] = pd.to_numeric(df["price"], errors="coerce")
+    df["humidity"] = pd.to_numeric(df["humidity"], errors="coerce")
+    df["windSpeed"] = pd.to_numeric(df["windSpeed"], errors="coerce")
+    df["longitude"] = pd.to_numeric(df["longitude"], errors="coerce")
+    df["latitude"] = pd.to_numeric(df["latitude"], errors="coerce")
     
-    drop_cols = ["timestamp","id","apparentTemperature","temperatureHigh","temperatureLow",
-                 "apparentTemperatureHigh","apparentTemperatureLow","temperatureMin","temperatureMax",
-                 "apparentTemperatureMin","apparentTemperatureMax","temperatureHighTime","temperatureLowTime",
-                 "apparentTemperatureHighTime","apparentTemperatureLowTime","temperatureMinTime","temperatureMaxTime",
-                 "apparentTemperatureMinTime","apparentTemperatureMaxTime","windGustTime", "uvIndexTime",
-                 "sunriseTime","sunsetTime","dewPoint","pressure","windBearing","cloudCover","uvIndex","ozone",
-                 "moonPhase", "precipIntensity","precipProbability","precipIntensityMax","visibility.1",
-                 "long_summary","icon","windGust","visibility","timezone","product_id"]
-    df = df.drop(columns=drop_cols)
+    df = df.dropna(subset=["price", "humidity", "windSpeed"])
     
-    df = df.drop_duplicates()
-    df["datetime"] = pd.to_datetime(df["datetime"])
-    df["price"] = pd.to_numeric(df["price"].round(5))
-    
-    df = df[(df["longitude"] != 0.0) & (df["latitude"] != 0.0) & 
-            (df["price"] != 0.0) & (df["humidity"] != 0.0) &
-            (df["windSpeed"] != 0.0) & (df["distance"] != 0.0)]
-    
-    df = df.fillna("")
-    
-    df = df[(df["longitude"] >= -72.00) & (df["longitude"] <= -70.50)]
-    df = df[(df["latitude"] >= 42.00) & (df["latitude"] <= 43.00)]
+    df = df[(df["price"] > 0) & (df["price"] < 200.00)]
     df = df[(df["humidity"] > 0) & (df["humidity"] < 1)]
     df = df[(df["windSpeed"] > 0) & (df["windSpeed"] < 15)]
-    df = df[(df["price"] > 0) & (df["price"] < 200.00)]
     
     df = df.rename(columns={"longitude": "lon", "latitude": "lat"})
-
+    
     return df
     
 df = load_data()
