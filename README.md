@@ -1,1 +1,2 @@
 # data_visualisation-
+In 2024, the United States (US) ride-share market was valuated at $28.5 billion, according to Global Market Insights (U.S. Ride Sharing Market Size & Share | Analysis Report 2034, no date). The demand of ride-share companies increased the early 2010’s, as customers looked towards convenience, availability, and cost-effectiveness. Currently, the US ride-share industry is dominated by two market leaders, Uber and Lyft. This consultancy report will be sponsored by Lyft and aims to explore the competitive differences between the two companies.
